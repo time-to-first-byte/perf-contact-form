@@ -1,7 +1,7 @@
 
 <?php
 /*
- *  Plugin Name: Perfthemes Contact Form
+ *  Plugin Name:       Perfthemes Contact Form
  *  Plugin URI:        https://github.com/perfthemes/contact-form
  *  Description:       Simple plugin to add contact form on Perfthemes themes
  *  Version:           1.0.0
