@@ -1,4 +1,3 @@
-
 <?php
 /*
  *  Plugin Name:       Perfthemes Contact Form
@@ -10,7 +9,6 @@
  *  Text Domain:       perf_contact
  *  Domain Path:       /languages
  */
-
  function perf_html_form_code() {
  	?>
  	<form action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>#contact_form" method="post">
@@ -105,7 +103,7 @@
  }
 
  function perf_cf_shortcode() {
-    if( function_exists( 'get_field' ) ){
+    if( function_exists( 'get_field' ) && function_exists( 'perf_setup' ) ){
         ob_start();
         perf_deliver_mail();
         perf_html_form_code();
