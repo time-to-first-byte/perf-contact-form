@@ -16,24 +16,24 @@
  		<div class="clearfix mxn2">
  			<div class="md-col md-col-6 px2 mb2">
  				<label for="cf-name"><?php _e("Name","perf_contact"); ?></label> <span class="main-color">*</span>
- 				<input type="text" name="cf-name" pattern="[a-zA-Z0-9 ]+" value="<?php echo ( isset( $_POST["cf-name"] ) ? esc_attr( $_POST["cf-name"] ) : '' ) ?>" size="40" required>
+ 				<input type="text" id="cf-name" name="cf-name" pattern="[a-zA-Z0-9 ]+" value="<?php echo ( isset( $_POST["cf-name"] ) ? esc_attr( $_POST["cf-name"] ) : '' ) ?>" size="40" required>
  			</div>
 
  			<div class="md-col md-col-6 px2 mb2">
  				<label for="cf-email"><?php _e("Email","perf_contact"); ?></label> <span class="main-color">*</span>
- 				<input type="email" name="cf-email" value="<?php echo ( isset( $_POST["cf-email"] ) ? esc_attr( $_POST["cf-email"] ) : '' ) ?>" size="40" required>
+ 				<input type="email" id="cf-email" name="cf-email" value="<?php echo ( isset( $_POST["cf-email"] ) ? esc_attr( $_POST["cf-email"] ) : '' ) ?>" size="40" required>
  			</div>
  		</div>
 
 
  		<div class="mb2">
  			<label for="cf-subject"><?php _e("Subject","perf_contact"); ?></label> <span class="main-color">*</span>
- 			<input type="text" name="cf-subject" pattern="[a-zA-Z ]+" value="<?php echo ( isset( $_POST["cf-subject"] ) ? esc_attr( $_POST["cf-subject"] ) : '' ) ?>" size="40" required>
+ 			<input type="text" id="cf-subject"  name="cf-subject" pattern="[a-zA-Z ]+" value="<?php echo ( isset( $_POST["cf-subject"] ) ? esc_attr( $_POST["cf-subject"] ) : '' ) ?>" size="40" required>
  		</div>
 
  		<div class="mb2">
  			<label for="cf-message"><?php _e("Message","perf_contact"); ?></label> <span class="main-color">*</span>
- 			<textarea rows="10" cols="35" name="cf-message" required><?php echo ( isset( $_POST["cf-message"] ) ? esc_attr( $_POST["cf-message"] ) : '' ) ?></textarea>
+ 			<textarea rows="10" cols="35" id="cf-message" name="cf-message" required><?php echo ( isset( $_POST["cf-message"] ) ? esc_attr( $_POST["cf-message"] ) : '' ) ?></textarea>
  		</div>
 
  		<?php if( get_field("perf_contact_recaptcha","option") ): ?>
