@@ -28,7 +28,7 @@
 
  		<div class="mb2">
  			<label for="cf-subject"><?php _e("Subject","perf_contact"); ?></label> <span class="main-color">*</span>
- 			<input type="text" id="cf-subject"  name="cf-subject" pattern="[a-zA-Z ]+" value="<?php echo ( isset( $_POST["cf-subject"] ) ? esc_attr( $_POST["cf-subject"] ) : '' ) ?>" size="40" required>
+ 			<input type="text" id="cf-subject"  name="cf-subject" value="<?php echo ( isset( $_POST["cf-subject"] ) ? esc_attr( $_POST["cf-subject"] ) : '' ) ?>" size="40" required>
  		</div>
 
  		<div class="mb2">
