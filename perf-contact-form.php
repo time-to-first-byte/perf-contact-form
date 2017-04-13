@@ -15,9 +15,12 @@
 function perf_contact_scripts() {
 	global $post;
 
-	$content = $post->post_content;
+	if( is_object( $post ) ){
+        $content = $post->post_content;
+    }
+	
 
-	if( get_field("perf_contact_recaptcha","option") && has_shortcode( $content, 'perf_contact_form' ) ){
+	if( !is_search() && !is_404() && get_field("perf_contact_recaptcha","option") && has_shortcode( $content, 'perf_contact_form' ) ){
 		wp_enqueue_script( 'perf-contact-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), '', true );
 	}
 }
