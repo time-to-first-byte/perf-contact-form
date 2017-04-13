@@ -2,16 +2,23 @@
 /*
  *  Plugin Name:       Perfthemes Contact Form
  *  Plugin URI:        https://github.com/perfthemes/contact-form
- *  Description:       Simple plugin to add contact form on Perfthemes themes
+ *  Description:       Add a simple contact form on Perfthemes themes
  *  Version:           1.0.0
  *  Author:            Perfthemes
  *  Author URI:        https://perfthemes.com/
- *  Text Domain:       perf_contact
+ *  Text Domain:       perf
  *  Domain Path:       /languages
  */
+
+ /**
+ * Load ACF Meta box
+ */
+require 'acf-meta-box.php';
+
 /*
 * Register scripts
 */
+add_action( 'wp_enqueue_scripts', 'perf_contact_scripts' );
 function perf_contact_scripts() {
 	global $post;
 
@@ -24,7 +31,6 @@ function perf_contact_scripts() {
 		wp_enqueue_script( 'perf-contact-recaptcha', 'https://www.google.com/recaptcha/api.js', array(), '', true );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'perf_contact_scripts' );
 
 /*
 * Form HTML
@@ -57,12 +63,12 @@ function perf_contact_html_form_code() {
 		</div>
 
 		<?php if( get_field("perf_contact_recaptcha","option") ): ?>
-			<div class="mb2">
-				<div class="g-recaptcha" data-sitekey="<?php echo get_field("perf_contact_public_key","option"); ?>"></div>
+			<div class=" clearfix">
+				<div class="g-recaptcha mb2" data-sitekey="<?php echo get_field("perf_contact_public_key","option"); ?>"></div>
 	 		<div>
 	 	<?php endif; ?>
 
-		<input type="submit" name="cf-submitted" class="perf_btn mb2 mt2" value="<?php _e("Send","perf_contact"); ?>">
+		<input type="submit" name="cf-submitted" class="perf_btn mb2 pointer" value="<?php _e("Send","perf_contact"); ?>">
 
 	</form>
 	<?php
@@ -87,16 +93,16 @@ function perf_contact_deliver_mail() {
 
 		$headers = "From: $name <$email>" . "\r\n";
 
-		$q = http_build_query(array(
-	        'secret'    => get_field("perf_contact_private_key_copy","option"),
-	        'response'  => $_POST['g-recaptcha-response'],
-	        'remoteip'  => $_SERVER['REMOTE_ADDR'],
-		));
-
 		if( get_field("perf_contact_recaptcha","option") ){
 
+            $q = http_build_query(array(
+                'secret'    => get_field("perf_contact_private_key_copy","option"),
+                'response'  => $_POST['g-recaptcha-response'],
+                'remoteip'  => $_SERVER['REMOTE_ADDR'],
+            ));
+
 			$temp_siteverify = wp_remote_get('https://www.google.com/recaptcha/api/siteverify?' . $q);
- 		$siteverify = $temp_siteverify['body'];
+ 		    $siteverify = $temp_siteverify['body'];
 			$recaptcha = json_decode($siteverify);
 			$recaptcha = $recaptcha->success;
 		}else{
@@ -104,7 +110,7 @@ function perf_contact_deliver_mail() {
 		}
 
 		if ( $recaptcha && wp_mail( $to, $subject, $message, $headers ) ) {
-			wp_mail( $to, $subject, $message, $headers );
+			//wp_mail( $to, $subject, $message, $headers );
 
 			echo '<div>';
 			if( get_field("perf_contact_success_message","option") ){
@@ -125,8 +131,12 @@ function perf_contact_deliver_mail() {
 	}
 }
 
+/*
+ * Create Shortcode
+ */
+add_shortcode( 'perf_contact_form', 'perf_contact_cf_shortcode' );
 function perf_contact_cf_shortcode() {
-	if( function_exists( 'get_field' ) && function_exists( 'perf_setup' ) ){
+	if( function_exists( 'get_field' ) ){
 	    ob_start();
 	    perf_contact_deliver_mail();
 	    perf_contact_html_form_code();
@@ -134,4 +144,13 @@ function perf_contact_cf_shortcode() {
 	 	return ob_get_clean();
 	}
 }
-add_shortcode( 'perf_contact_form', 'perf_contact_cf_shortcode' );
+
+if( function_exists('acf_add_options_page') ) {
+
+    acf_add_options_sub_page(array(
+        'page_title' 	=> 'Contact Form',
+        'menu_title'	=> 'Contact Form',
+        'parent_slug'	=> 'perfthemes-settings',
+    ));
+	
+}
